@@ -14,8 +14,6 @@ from vmware_aria_operations_integration_sdk import docker_wrapper
 from vmware_aria_operations_integration_sdk.config import get_config_value
 from vmware_aria_operations_integration_sdk.config import set_config_value
 from vmware_aria_operations_integration_sdk.constant import CONTAINER_BASE_NAME
-from vmware_aria_operations_integration_sdk.constant import CONTAINER_REGISTRY_HOST
-from vmware_aria_operations_integration_sdk.constant import CONTAINER_REGISTRY_PATH
 from vmware_aria_operations_integration_sdk.docker_wrapper import BuildError
 from vmware_aria_operations_integration_sdk.docker_wrapper import init
 from vmware_aria_operations_integration_sdk.docker_wrapper import login
@@ -23,6 +21,7 @@ from vmware_aria_operations_integration_sdk.docker_wrapper import push_image
 from vmware_aria_operations_integration_sdk.docker_wrapper import PushError
 from vmware_aria_operations_integration_sdk.ui import multiselect_prompt
 from vmware_aria_operations_integration_sdk.ui import print_formatted as print
+from vmware_aria_operations_integration_sdk.ui import prompt
 from vmware_aria_operations_integration_sdk.ui import selection_prompt
 
 VERSION_FILE = "../vmware_aria_operations_integration_sdk/container_versions.json"
@@ -114,7 +113,7 @@ def main() -> None:
     # as such we assume relative paths will work
     registry_url = get_config_value(
         "registry_url",
-        default=f"{CONTAINER_REGISTRY_HOST}/{CONTAINER_REGISTRY_PATH}",
+        default="",
         config_file=VERSION_FILE,
     )
 
@@ -136,11 +135,14 @@ def main() -> None:
     if any(i in images_to_build for i in secondary_images):
         set_config_value("secondary_images", secondary_images, VERSION_FILE)
 
+    registry_url_display = registry_url if registry_url else "a registry"
     push_to_registry: bool = selection_prompt(
-        message=f"Push images to {registry_url}?", items=[(True, "Yes"), (False, "No")]
+        message=f"Push images to {registry_url_display}?", items=[(True, "Yes"), (False, "No")]
     )
 
     if push_to_registry:
+        if not registry_url:
+            registry_url = prompt("Enter registry URL to push images to: ")
         login(container_registry=registry_url)
 
     print(f"\n{'='*60}")

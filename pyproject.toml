@@ -25,6 +25,7 @@ include = [
     "vmware_aria_operations_integration_sdk/api/vmware-aria-operations-collector-fwk2.json",
     "vmware_aria_operations_integration_sdk/api/integration-sdk-definition-endpoint.json",
     "vmware_aria_operations_integration_sdk/container_versions.json",
+    { path = "images/**/*", format = ["sdist", "wheel"] }
 ]
 repository = "https://github.com/vmware/vrealize-operations-integration-sdk"
 

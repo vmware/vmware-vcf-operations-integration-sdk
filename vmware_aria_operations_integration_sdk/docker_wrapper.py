@@ -180,6 +180,17 @@ def build_image(
     :param labels: dict of labels. Defaults to empty dict
     :return:
     """
+    dockerfile_path = os.path.join(path, "Dockerfile")
+    if os.path.exists(dockerfile_path):
+        with open(dockerfile_path, "r") as f:
+            for line in f:
+                if line.startswith("FROM ") and "base-adapter" in line:
+                    match = re.search(r'base-adapter:([a-zA-Z]+)-', line)
+                    if match:
+                        language = match.group(1)
+                        ensure_base_image_exists(language)
+                        break
+
     context = _get_docker_context(path)
     if labels is None:
         labels = dict()
@@ -453,3 +464,64 @@ class PushError(DockerWrapperError):
 
 class BuildError(DockerWrapperError):
     """Raised when and error occurs while building the Docker image"""
+
+
+def ensure_base_image_exists(language: str) -> None:
+    client = init()
+    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    version_file = os.path.join(current_dir, "container_versions.json")
+    try:
+        with open(version_file, "r") as f:
+            versions = json.load(f)
+    except FileNotFoundError:
+        raise BuildError(message=f"Could not find container_versions.json at {version_file}")
+    
+    version = ""
+    if language.lower() == "python":
+        version = versions["base_image"]["version"]
+    else:
+        for img in versions.get("secondary_images", []):
+            if img["language"].lower() == language.lower():
+                version = img["version"]
+                break
+                
+    if not version:
+        raise BuildError(message=f"Could not find version for language '{language}' in container_versions.json")
+        
+    from vmware_aria_operations_integration_sdk.constant import CONTAINER_BASE_NAME
+    image_tag = f"{CONTAINER_BASE_NAME}:{language.lower()}-{version}"
+    
+    try:
+        client.images.get(image_tag)
+        logger.debug(f"Base image {image_tag} already exists locally.")
+        return
+    except docker.errors.ImageNotFound:
+        possible_image_dirs = [
+            os.path.join(current_dir, "..", "images"),
+            os.path.join(current_dir, "..", "..", "images"),
+        ]
+        
+        images_dir = None
+        for p in possible_image_dirs:
+            if os.path.isdir(p) and os.path.exists(os.path.join(p, "base-python-adapter")):
+                images_dir = p
+                break
+                
+        if not images_dir:
+            raise BuildError(message=f"Could not find bundled 'images' directory to build {image_tag}")
+
+        path = ""
+        if language.lower() == "python":
+            path = os.path.join(images_dir, "base-python-adapter")
+        elif language.lower() == "java":
+            ensure_base_image_exists("python")
+            path = os.path.join(images_dir, "java-adapter")
+        elif language.lower() == "powershell":
+            ensure_base_image_exists("python")
+            path = os.path.join(images_dir, "powershell-adapter")
+        else:
+            raise BuildError(message=f"Unknown language {language}")
+
+        logger.info(f"Building base image {image_tag}...")
+        build_image(client, path=path, tag=image_tag, nocache=False)

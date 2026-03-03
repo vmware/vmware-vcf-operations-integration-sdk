@@ -7,6 +7,9 @@ from sys import platform
 
 VERSION_FILE = "container_versions.json"
 CONTAINER_BASE_NAME = "base-adapter"
+
+# Note: The base adapter images are now bundled with the SDK and built locally.
+# Remote registry configurations are kept for legacy compatibility but are deprecated.
 CONTAINER_REGISTRY_PATH = "vmware_aria_operations_integration_sdk"
 CONTAINER_REGISTRY_HOST = "projects.packages.broadcom.com"
 
