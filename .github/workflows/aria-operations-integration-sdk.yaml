@@ -23,9 +23,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install SDK dependencies
       run: |
-        python -m pip install --upgrade pip setuptools
+        python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         python -m pip install .
+        python -m pip install setuptools
     - name: Lint SDK with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
