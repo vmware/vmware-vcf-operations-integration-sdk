@@ -185,7 +185,7 @@ def build_image(
         with open(dockerfile_path, "r") as f:
             for line in f:
                 if line.startswith("FROM ") and "base-adapter" in line:
-                    match = re.search(r'base-adapter:([a-zA-Z]+)-', line)
+                    match = re.search(r"base-adapter:([a-zA-Z]+)-", line)
                     if match:
                         language = match.group(1)
                         ensure_base_image_exists(language)
@@ -468,15 +468,17 @@ class BuildError(DockerWrapperError):
 
 def ensure_base_image_exists(language: str) -> None:
     client = init()
-    
+
     current_dir = os.path.dirname(os.path.abspath(__file__))
     version_file = os.path.join(current_dir, "container_versions.json")
     try:
         with open(version_file, "r") as f:
             versions = json.load(f)
     except FileNotFoundError:
-        raise BuildError(message=f"Could not find container_versions.json at {version_file}")
-    
+        raise BuildError(
+            message=f"Could not find container_versions.json at {version_file}"
+        )
+
     version = ""
     if language.lower() == "python":
         version = versions["base_image"]["version"]
@@ -485,13 +487,16 @@ def ensure_base_image_exists(language: str) -> None:
             if img["language"].lower() == language.lower():
                 version = img["version"]
                 break
-                
+
     if not version:
-        raise BuildError(message=f"Could not find version for language '{language}' in container_versions.json")
-        
+        raise BuildError(
+            message=f"Could not find version for language '{language}' in container_versions.json"
+        )
+
     from vmware_aria_operations_integration_sdk.constant import CONTAINER_BASE_NAME
+
     image_tag = f"{CONTAINER_BASE_NAME}:{language.lower()}-{version}"
-    
+
     try:
         client.images.get(image_tag)
         logger.debug(f"Base image {image_tag} already exists locally.")
@@ -501,15 +506,19 @@ def ensure_base_image_exists(language: str) -> None:
             os.path.join(current_dir, "..", "images"),
             os.path.join(current_dir, "..", "..", "images"),
         ]
-        
+
         images_dir = None
         for p in possible_image_dirs:
-            if os.path.isdir(p) and os.path.exists(os.path.join(p, "base-python-adapter")):
+            if os.path.isdir(p) and os.path.exists(
+                os.path.join(p, "base-python-adapter")
+            ):
                 images_dir = p
                 break
-                
+
         if not images_dir:
-            raise BuildError(message=f"Could not find bundled 'images' directory to build {image_tag}")
+            raise BuildError(
+                message=f"Could not find bundled 'images' directory to build {image_tag}"
+            )
 
         path = ""
         if language.lower() == "python":

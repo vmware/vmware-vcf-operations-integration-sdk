@@ -341,9 +341,7 @@ class AdapterConfig(ABC):
         dockerfile.write(
             f"# The {CONTAINER_BASE_NAME} image is built automatically by the integration SDK.\n"
         )
-        dockerfile.write(
-            f"FROM {CONTAINER_BASE_NAME}:{language}-{version}\n"
-        )
+        dockerfile.write(f"FROM {CONTAINER_BASE_NAME}:{language}-{version}\n")
         dockerfile.write(f"COPY commands.cfg .\n")
 
     def _build_adapter_template(self) -> None:

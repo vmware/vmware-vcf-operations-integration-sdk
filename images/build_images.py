@@ -137,7 +137,8 @@ def main() -> None:
 
     registry_url_display = registry_url if registry_url else "a registry"
     push_to_registry: bool = selection_prompt(
-        message=f"Push images to {registry_url_display}?", items=[(True, "Yes"), (False, "No")]
+        message=f"Push images to {registry_url_display}?",
+        items=[(True, "Yes"), (False, "No")],
     )
 
     if push_to_registry:
