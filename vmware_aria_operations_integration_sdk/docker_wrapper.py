@@ -99,7 +99,7 @@ def init() -> DockerClient:
             logger.debug(e, exc_info=True)
 
             if platform.system() == "Windows":
-                host_os_port_path = "C:\ProgramData\docker"
+                host_os_port_path = r"C:\ProgramData\docker"
             else:
                 host_os_port_path = "/var/run/docker.sock"
 
