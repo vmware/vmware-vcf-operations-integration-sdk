@@ -2,71 +2,31 @@
 
 ### Unable to access base-adapter images from remote registry ("failed to resolve reference...")
 
-If you cannot access the remote container registry (`projects.packages.broadcom.com`), you can build and use base images locally.
+If you are using an older version of the SDK, you might see errors regarding `projects.packages.broadcom.com`.
+The remote registry is no longer available. However, in newer SDK versions, the base adapter images are bundled directly into the SDK and are built automatically when you run `mp-build` or `mp-test`.
 
-#### Building Base Images Locally
+#### Resolution
 
-1. Clone or download the [vmware-aria-operations-integration-sdk](https://github.com/vmware/vmware-aria-operations-integration-sdk) repository
-
-2. Navigate to the images directory:
-   ```bash
-   cd vmware-aria-operations-integration-sdk/images
-   ```
-
-3. Run the build script:
-   ```bash
-   python build_images.py
-   ```
-
-4. Select the base image(s) you need:
-   - Use **SPACE** to select/deselect images
-   - Use **↑/↓** arrows to navigate
-   - Press **ENTER** to confirm
-   - Select "Python (base image)" for Python adapters
-   - Select "Java (includes Python base)" for Java adapters
-   - Select "Powershell (includes Python base)" for PowerShell adapters
-
-5. When prompted about version updates, select "No Update" unless you need to change the version
-
-6. When asked "Push images to registry?", select "No" (you're building for local use)
-
-#### Using Locally Built Images
-
-After building the base images locally, you need to tag them so Docker can find them when building your adapter.
-
-**For Python adapters** (check your Dockerfile's FROM line for the exact version):
+**1. Upgrade your SDK:**
+Ensure you are using the latest version of the SDK:
 ```bash
-docker tag base-adapter:python-1.0.0 projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-1.0.0
+pip install --upgrade vmware-aria-operations-integration-sdk
 ```
 
-**For Java adapters**:
-```bash
-# First, ensure Python base is tagged
-docker tag base-adapter:python-1.0.0 projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-1.0.0
+**2. Update your Dockerfile:**
+Remove the registry prefix from the `FROM` instruction in your adapter's `Dockerfile` so it just references the local image name.
 
-# Then tag the Java image
-docker tag base-adapter:java-1.0.0 projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:java-1.0.0
+*Before:*
+```dockerfile
+FROM projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-1.0.0
 ```
 
-**For PowerShell adapters**:
-```bash
-# First, ensure Python base is tagged
-docker tag base-adapter:python-1.0.0 projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-1.0.0
-
-# Then tag the PowerShell image
-docker tag base-adapter:powershell-0.9.0 projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:powershell-0.9.0
+*After:*
+```dockerfile
+FROM base-adapter:python-1.0.0
 ```
 
-> **Note: Verifying Your Local Images**
-> 
-> To see what images you have available locally:
-> ```bash
-> docker images | grep base-adapter
-> ```
-
-> **Warning: Version Matching**
-> 
-> Make sure the version you build and tag matches the version referenced in your adapter's Dockerfile. Check your Dockerfile's `FROM` line to see which version is required.
+Once upgraded and updated, `mp-build` and `mp-test` will automatically detect if the base image is missing on your machine and build it locally in the background using the bundled source files.
 
 ### mp-build returns 'Unable to build container'
 

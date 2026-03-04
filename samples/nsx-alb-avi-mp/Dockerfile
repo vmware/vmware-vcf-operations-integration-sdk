@@ -1,4 +1,4 @@
-FROM projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-0.11.0
+FROM base-adapter:python-0.11.0
 COPY commands.cfg .
 COPY adapter_requirements.txt .
 

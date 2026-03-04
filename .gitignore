@@ -84,3 +84,5 @@ sdist
 
 # default virtual environment location
 vrops_mp_sdk_venv
+.cursor-ai/
+.cursor
