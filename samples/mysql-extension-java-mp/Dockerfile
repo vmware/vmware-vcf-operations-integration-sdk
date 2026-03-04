@@ -13,7 +13,7 @@ RUN gradle build
 
 # If the harbor repo isn't accessible, the base-adapter image can be built locally.
 # Go to the vmware-aria-operations-integration-sdk repository, and run the build_images.py script located at images/build_images.py
-FROM base-adapter:java-1.0.0
+FROM base-adapter:java-1.1.0
 COPY commands.cfg .
 WORKDIR /home/aria-ops-adapter-user/src/app
 

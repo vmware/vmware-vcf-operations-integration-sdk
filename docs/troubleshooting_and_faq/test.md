@@ -18,9 +18,9 @@ See below for approximate image sizes.
 | Language | Stage       | Image                     | Compressed Size |
 |----------|-------------|---------------------------|-----------------|
 | Python   | Compilation | N/A                       | N/A             |
-| Python   | Execution   | base-adapter:python-1.0.0 | 54 MiB          |
+| Python   | Execution   | base-adapter:python-1.1.0 | 54 MiB          |
 | Java     | Compilation | gradle:8.3.0-jdk17        | 341 MiB         |
-| Java     | Execution   | base-adapter:java-1.0.0   | 212 MiB         |
+| Java     | Execution   | base-adapter:java-1.1.0   | 212 MiB         |
 
 ### `mp-test` returns '500 INTERNAL SERVER ERROR'
 

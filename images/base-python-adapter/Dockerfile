@@ -1,4 +1,4 @@
-FROM python:3.11.1-slim-bullseye
+FROM python:3.11.12-slim-bookworm
 
 # Ensure that the /var/log directory is writable by the server/adapter
 RUN chmod 777 /var/log
@@ -10,7 +10,8 @@ WORKDIR /home/aria-ops-adapter-user/src/app
 
 # Copy project into container and install requirements
 COPY . .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir --upgrade pip && \
+    pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 443
 EXPOSE 8080
