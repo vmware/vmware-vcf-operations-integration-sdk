@@ -356,7 +356,7 @@ def _migrate_connection_file(
                 " but the connection related "
                 f"elements will remain in the {CONFIG_FILE_NAME}.\n"
                 "To learn more about connection config file migration, visit\n"
-                f"https://vmware.github.io/vmware-aria-operations-integration-sdk"
+                f"https://vmware.github.io/vmware-vcf-operations-integration-sdk"
                 f"/troubleshooting_and_faq/other"
                 f"/#how-do-i-migrate-connection-related-elements-from-configjson-to-connectionsjson",
             ):
