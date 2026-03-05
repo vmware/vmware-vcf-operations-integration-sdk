@@ -2111,7 +2111,7 @@ Remove the registry prefix from the <code>FROM</code> instruction in your adapte
 <div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-1.0.0</span>
 </span></code></pre></div></p>
 <p><em>After:</em>
-<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">base-adapter:python-1.0.0</span>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">base-adapter:python-1.2.0</span>
 </span></code></pre></div></p>
 <p>Once upgraded and updated, <code>mp-build</code> and <code>mp-test</code> will automatically detect if the base image is missing on your machine and build it locally in the background using the bundled source files.</p>
 <h3 id="mp-build-returns-unable-to-build-container">mp-build returns 'Unable to build container'<a class="headerlink" href="#mp-build-returns-unable-to-build-container" title="Permanent link">&para;</a></h3>
