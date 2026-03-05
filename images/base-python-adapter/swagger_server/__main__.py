@@ -4,38 +4,33 @@
 import os
 
 import connexion
-from cheroot import wsgi
-from cheroot.ssl.builtin import BuiltinSSLAdapter
-from swagger_server import encoder
 from swagger_server import server_logging
+from swagger_server.encoder import JSONProvider
 
 
 def main() -> None:
     server_logging.setup_logging("server.log")
     logger = server_logging.getLogger("main")
 
-    app = connexion.App(__name__, specification_dir="swagger/")
-    app.app.json_encoder = encoder.JSONEncoder
+    app = connexion.FlaskApp(__name__, specification_dir="swagger/")
+    app.app.json_provider_class = JSONProvider
+    app.app.json = JSONProvider(app.app)
     app.add_api(
         "swagger.yaml",
         arguments={"title": "Adapter API"},
         pythonic_params=True,
-        validate_responses=False,
     )
 
     ssl_cert = "/etc/ssl/certs/dockerized.crt"
     ssl_key = "/etc/ssl/certs/dockerized.key"
     port = 8080
+    ssl_args = {}
     if os.path.exists(ssl_cert) and os.path.exists(ssl_key):
         port = 443
+        ssl_args = {"ssl_certfile": ssl_cert, "ssl_keyfile": ssl_key}
 
     logger.info(f"Port: {port}")
-
-    # production server
-    server = wsgi.Server(("0.0.0.0", port), app)
-    if port == 443:
-        server.ssl_adapter = BuiltinSSLAdapter(ssl_cert, ssl_key, None)
-    server.start()
+    app.run(host="0.0.0.0", port=port, **ssl_args)
 
 
 if __name__ == "__main__":
