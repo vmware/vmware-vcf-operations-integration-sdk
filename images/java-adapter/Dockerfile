@@ -1,4 +1,4 @@
-FROM base-adapter:python-1.0.0
+FROM base-adapter:python-1.2.0
 
 # Switch to root to install Java
 USER root

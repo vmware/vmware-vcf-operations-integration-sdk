@@ -23,7 +23,7 @@ FROM projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-
 
 *After:*
 ```dockerfile
-FROM base-adapter:python-1.0.0
+FROM base-adapter:python-1.2.0
 ```
 
 Once upgraded and updated, `mp-build` and `mp-test` will automatically detect if the base image is missing on your machine and build it locally in the background using the bundled source files.

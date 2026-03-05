@@ -13,7 +13,6 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 
-import connexion
 from swagger_server.models import ApiVersion
 from swagger_server.models.adapter_config import AdapterConfig  # noqa: E501
 from swagger_server.models.collect_result import CollectResult  # noqa: E501
@@ -39,8 +38,8 @@ def collect(body: Optional[AdapterConfig] = None) -> Tuple[str, int]:  # noqa: E
     update_log_levels()
     logger.info("Request: collect")
 
-    if connexion.request.is_json:
-        body = AdapterConfig.from_dict(connexion.request.get_json())  # noqa: E501
+    if isinstance(body, dict):
+        body = AdapterConfig.from_dict(body)
 
     if body is None:
         logger.debug("No body in request")
@@ -99,8 +98,8 @@ def test(body: Optional[AdapterConfig] = None) -> Tuple[str, int]:  # noqa: E501
     update_log_levels()
     logger.info("Request: test")
 
-    if connexion.request.is_json:
-        body = AdapterConfig.from_dict(connexion.request.get_json())  # noqa: E501
+    if isinstance(body, dict):
+        body = AdapterConfig.from_dict(body)
 
     if body is None:
         return "No body in request", 400
@@ -121,7 +120,7 @@ def api_version() -> ApiVersion:  # noqa: E501
     update_log_levels()
     logger.info("Request: apiVersion")
     # This should match the version in swagger_server/swagger/swagger.yaml#/info/version
-    return ApiVersion(major=1, minor=0, maintenance=0)
+    return ApiVersion(major=1, minor=0, maintenance=0).to_dict(), 200
 
 
 def get_endpoint_urls(
@@ -139,8 +138,8 @@ def get_endpoint_urls(
     update_log_levels()
     logger.info("Request: endpointURLs")
 
-    if connexion.request.is_json:
-        body = AdapterConfig.from_dict(connexion.request.get_json())  # noqa: E501
+    if isinstance(body, dict):
+        body = AdapterConfig.from_dict(body)
 
     if body is None:
         logger.debug("No body in request")
