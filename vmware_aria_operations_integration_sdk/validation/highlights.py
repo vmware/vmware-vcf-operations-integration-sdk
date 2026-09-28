@@ -124,8 +124,7 @@ setting a property values to unique value frequently. Property values should be 
 each property value may help establish a finite set of possible values. If the amount of possible enums values is too large
 or the value changes frequently, consider a metric with a numeric value. For example, using a human-readable (string) time 
 stamp as a property to record the last backup date, should be replaced. A possible alternative could be a metric that counts
-days since last backup."""
-            )
+days since last backup.""")
     else:
         highlights.with_success("No abnormal property value growth found")
 

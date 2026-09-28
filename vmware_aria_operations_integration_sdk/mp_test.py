@@ -109,7 +109,6 @@ from vmware_aria_operations_integration_sdk.validation.input_validators import (
 )
 from vmware_aria_operations_integration_sdk.validation.result import Result
 
-
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 logger = logging.getLogger(__name__)
