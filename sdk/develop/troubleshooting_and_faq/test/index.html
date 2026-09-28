@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2182,13 +2182,13 @@ For example:</p>
 <span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="n">adapter_instance</span><span class="p">:</span> <span class="n">AdapterInstance</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CollectResult</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>  <span class="n">result</span> <span class="o">=</span> <span class="n">CollectResult</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>  <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;oops!&quot;</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"oops!"</span><span class="p">)</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="c1">#...</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unexpected collection error&quot;</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Unexpected collection error"</span><span class="p">)</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="n">result</span><span class="o">.</span><span class="n">with_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected collection error: &#39;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="n">result</span><span class="o">.</span><span class="n">with_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected collection error: '</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="k">return</span> <span class="n">result</span>
 </span></code></pre></div></td></tr></table></div>
 </div>
@@ -2207,11 +2207,11 @@ For example:</p>
 <span class="normal"><a href="#__codelineno-1-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">public</span> <span class="n">CollectRestuls</span> <span class="n">collect</span><span class="p">(</span><span class="n">AdapterInstance</span> <span class="n">adapterInstance</span><span class="p">)</span> <span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>  <span class="n">CollectResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CollectResult</span><span class="p">();</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>  <span class="k">try</span><span class="p">{</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="n">throw</span> <span class="n">new</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;oops!&quot;</span><span class="p">);</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="n">throw</span> <span class="n">new</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"oops!"</span><span class="p">);</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>    <span class="o">//...</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>  <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span> <span class="ne">Exception</span>  <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>    <span class="n">result</span><span class="o">.</span><span class="n">with_error</span><span class="p">(</span><span class="s2">&quot;Unexpected collection error: &quot;</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">getMessage</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">);</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>    <span class="n">result</span><span class="o">.</span><span class="n">with_error</span><span class="p">(</span><span class="s2">"Unexpected collection error: "</span> <span class="o">+</span> <span class="s2">"'"</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">getMessage</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"'"</span><span class="p">);</span>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>  <span class="p">}</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>  <span class="k">return</span> <span class="n">result</span>
@@ -2224,7 +2224,7 @@ For example:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Building adapter [Finished]
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Waiting for adapter to start [Finished]
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Running Collect [Finished]
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="hll">Collection Failed: Unexpected collection error: &#39;oops!&#39;
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="hll">Collection Failed: Unexpected collection error: 'oops!'
 </span></span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Avg CPU %                     | Avg Memory Usage %         | Memory Limit | Network I/O         | Block I/O
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>------------------------------+----------------------------+--------------+---------------------+--------------
@@ -2234,7 +2234,7 @@ For example:</p>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>No collection result was found.
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>No collection result was found.
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>All validation logs written to &#39;/Users/user/management-pack/test-management-pack/logs/validation.log&#39;
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>All validation logs written to '/Users/user/management-pack/test-management-pack/logs/validation.log'
 </span></code></pre></div>
 <p>As seen above, the Exception is mentioned as the reason for the collection error, and
 the <code>No collection result was found</code> message is also shown.
@@ -2322,7 +2322,7 @@ making using the same <code>container_repository</code> for the project easier.<
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../js/open_in_new_tab.js"></script>
       
