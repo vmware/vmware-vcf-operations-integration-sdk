@@ -22,12 +22,10 @@ def highlight_object_growth(
             highlights.with_warning(
                 f"Objects of type '{obj_type}' grew at a rate of {growth:.2f}% per hour."
             )
-            highlights.with_information(
-                """
+            highlights.with_information("""
 High Object growth may affect Aria Operations' performance over time.
-- Check that object identifiers are not changing. 
-- Ensure that there are no short-lived objects (eg. sessions)."""
-            )
+- Check that object identifiers are not changing.
+- Ensure that there are no short-lived objects (eg. sessions).""")
     else:
         highlights.with_success("No abnormal object growth found")
     return highlights

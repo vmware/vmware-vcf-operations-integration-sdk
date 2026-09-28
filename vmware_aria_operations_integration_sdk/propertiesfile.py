@@ -9,7 +9,7 @@ def load_properties(properties_file: str) -> dict:
             for line in f:
                 l = line.strip()
                 if l and not l.startswith("#"):
-                    (key, _, value) = l.partition("=")
+                    key, _, value = l.partition("=")
                     if value.strip():
                         properties[key.strip()] = value.strip()
     except FileNotFoundError as e:

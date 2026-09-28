@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from aenum import Enum
 from aenum import skip
 
-
 # All units should be standardized to ISO 80000 (International System of Quantities) abbreviations.
 # If a metric's unit is bits or bytes, but should use the base-2 paths, set the unit to bibit or bibyte, respectively
 # "per X" should be spelled out, with 'per X' all lowercase and spelled out
