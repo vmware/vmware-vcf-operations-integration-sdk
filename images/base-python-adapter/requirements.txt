@@ -1,5 +1,5 @@
 connexion[flask,uvicorn] >= 3.3.0
 python_dateutil == 2.8.*
-setuptools >= 78.1.1
+setuptools >= 83.0.0
 certifi >= 2024.7.4
 idna >= 3.7

@@ -6,6 +6,7 @@ import logging
 import os
 import time
 import traceback
+from importlib import metadata
 from logging.handlers import RotatingFileHandler
 from typing import Any
 from typing import Callable
@@ -16,7 +17,6 @@ from xml.etree.ElementTree import Element
 
 import httpx
 import lxml.etree as ET
-import pkg_resources
 import urllib3
 from docker.errors import APIError
 from docker.errors import ContainerError
@@ -762,9 +762,7 @@ def main() -> None:
         "-V",
         "--version",
         action="version",
-        version=pkg_resources.get_distribution(
-            "vmware-aria-operations-integration-sdk"
-        ).version,
+        version=metadata.version("vmware-aria-operations-integration-sdk"),
     )
 
     # General options

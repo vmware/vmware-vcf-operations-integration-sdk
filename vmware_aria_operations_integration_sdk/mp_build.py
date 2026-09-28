@@ -11,6 +11,7 @@ import shutil
 import time
 import traceback
 import zipfile
+from importlib import metadata
 from logging.handlers import RotatingFileHandler
 from typing import Any
 from typing import Dict
@@ -18,7 +19,6 @@ from typing import Optional
 from typing import Tuple
 
 import httpx
-import pkg_resources
 from docker import DockerClient
 from docker.models.images import Image
 
@@ -592,9 +592,7 @@ def main() -> None:
             "-V",
             "--version",
             action="version",
-            version=pkg_resources.get_distribution(
-                "vmware-aria-operations-integration-sdk"
-            ).version,
+            version=metadata.version("vmware-aria-operations-integration-sdk"),
         )
 
         # General options

@@ -4,6 +4,7 @@ import subprocess
 import venv
 from abc import ABC
 from abc import abstractmethod
+from importlib import metadata
 from importlib import resources
 from shutil import copy
 from string import Template
@@ -16,7 +17,6 @@ from typing import Optional
 from typing import Set
 from typing import TextIO
 
-import pkg_resources
 from docker.tls import os
 from git import Repo
 
@@ -362,7 +362,7 @@ class AdapterConfig(ABC):
         requirements_file = os.path.join(self.project.path, "requirements.txt")
         with open(requirements_file, "w") as requirements:
             package = "vmware-aria-operations-integration-sdk"
-            version = pkg_resources.get_distribution(package).version
+            version = metadata.version(package)
             requirements.write(f"{package}=={version}\n")
         return str(requirements_file)
 

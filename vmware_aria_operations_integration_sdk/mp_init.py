@@ -4,8 +4,7 @@ import argparse
 import logging
 import os
 import traceback
-
-import pkg_resources
+from importlib import metadata
 
 from vmware_aria_operations_integration_sdk.adapter_configurations.adapter_config import (
     AdapterConfig,
@@ -54,9 +53,7 @@ def main() -> None:
         "-V",
         "--version",
         action="version",
-        version=pkg_resources.get_distribution(
-            "vmware-aria-operations-integration-sdk"
-        ).version,
+        version=metadata.version("vmware-aria-operations-integration-sdk"),
     )
     parser.parse_args()
 
