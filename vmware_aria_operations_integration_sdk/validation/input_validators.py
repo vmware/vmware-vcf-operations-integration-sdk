@@ -280,12 +280,12 @@ class ContainerRegistryValidator(NotEmptyValidator):
         path = container_registry
         tag = ""
         if "/" in container_registry:
-            (domain, path) = container_registry.split("/", 1)
+            domain, path = container_registry.split("/", 1)
             if "." not in domain:
                 path = f"{domain}/{path}"
                 domain = cls.default_domain
             if ":" in domain:
-                (domain, port) = domain.split(":", 1)
+                domain, port = domain.split(":", 1)
             if ":" in path:
-                (path, tag) = path.split(":", 1)
+                path, tag = path.split(":", 1)
         return {"domain": domain, "port": port, "path": path, "tag": tag}

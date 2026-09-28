@@ -10,7 +10,6 @@ from aria.ops.data import Metric
 from aria.ops.data import Property
 from aria.ops.event import Event
 
-
 #  Copyright 2022 VMware, Inc.
 #  SPDX-License-Identifier: Apache-2.0
 

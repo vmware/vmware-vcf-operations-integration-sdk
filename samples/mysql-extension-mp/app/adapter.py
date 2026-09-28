@@ -126,8 +126,7 @@ def collect(adapter_instance: AdapterInstance) -> CollectResult:
                 # Run a query to get some additional data. Here we're getting info about
                 # lock waits on each database
                 cursor = connection.cursor()
-                cursor.execute(
-                    """
+                cursor.execute("""
                     select OBJECT_SCHEMA,
                            sum(COUNT_STAR)     as COUNT_STAR,
                            sum(SUM_TIMER_WAIT) as SUM_TIMER_WAIT,
@@ -135,8 +134,7 @@ def collect(adapter_instance: AdapterInstance) -> CollectResult:
                            min(MIN_TIMER_WAIT) as MIN_TIMER_WAIT
                     from performance_schema.table_lock_waits_summary_by_table
                     group by OBJECT_SCHEMA
-                    """
-                )
+                    """)
 
                 # Iterate through the results of the query, and add them to the appropriate
                 # database Object as metrics.
