@@ -115,12 +115,11 @@ def highlight_property_value_growth(
                     f"Property values on objects of '{obj_type}' grew at a rate of {growth:.2f}% per hour."
                 )
 
-            highlights.with_information(
-                """
-High property value growth may affect Aria Operations' performance over time. Property value growth is caused by 
+            highlights.with_information("""
+High property value growth may affect Aria Operations' performance over time. Property value growth is caused by
 setting a property values to unique value frequently. Property values should be finite and change infrequently. Creating enums for
 each property value may help establish a finite set of possible values. If the amount of possible enums values is too large
-or the value changes frequently, consider a metric with a numeric value. For example, using a human-readable (string) time 
+or the value changes frequently, consider a metric with a numeric value. For example, using a human-readable (string) time
 stamp as a property to record the last backup date, should be replaced. A possible alternative could be a metric that counts
 days since last backup.""")
     else:
