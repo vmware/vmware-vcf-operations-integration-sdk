@@ -339,22 +339,16 @@ class AdapterConfig(ABC):
             )
         )["version"]
         dockerfile.write(
-            f"# If the harbor repo isn't accessible, the {CONTAINER_BASE_NAME} image can be built locally.\n"
+            f"# The {CONTAINER_BASE_NAME} image is built automatically by the integration SDK.\n"
         )
-        dockerfile.write(
-            f"# Go to the {REPO_NAME} repository, and run the build_images.py script located at "
-            f"images/build_images.py\n"
-        )
-        dockerfile.write(
-            f"FROM {CONTAINER_REGISTRY_HOST}/{CONTAINER_REGISTRY_PATH}/{CONTAINER_BASE_NAME}:{language}-{version}\n"
-        )
+        dockerfile.write(f"FROM {CONTAINER_BASE_NAME}:{language}-{version}\n")
         dockerfile.write(f"COPY commands.cfg .\n")
 
     def _build_adapter_template(self) -> None:
         # Iterate through all files in the selected template
         for file in self._list_adapter_template_files():
             file_path, extension = os.path.splitext(
-                file.replace(self.response_values["adapter_template_path"] + "/", "")
+                file.replace(self.response_values["adapter_template_path"] + os.sep, "")
             )
             destination = self.get_file_destination(file_path)
             if extension == ".template":

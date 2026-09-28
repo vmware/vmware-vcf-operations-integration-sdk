@@ -90,8 +90,9 @@ class AdapterContainer:
                 self._container_task = None
 
         # Need time for the server to start
-        with Spinner("Waiting for adapter to start"):
-            start_time = time.perf_counter()
+        if not self.started:
+            with Spinner("Waiting for adapter to start"):
+                start_time = time.perf_counter()
             max_wait_time = 20
             while not self.started:
                 try:

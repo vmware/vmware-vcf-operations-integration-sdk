@@ -14,8 +14,6 @@ from vmware_aria_operations_integration_sdk import docker_wrapper
 from vmware_aria_operations_integration_sdk.config import get_config_value
 from vmware_aria_operations_integration_sdk.config import set_config_value
 from vmware_aria_operations_integration_sdk.constant import CONTAINER_BASE_NAME
-from vmware_aria_operations_integration_sdk.constant import CONTAINER_REGISTRY_HOST
-from vmware_aria_operations_integration_sdk.constant import CONTAINER_REGISTRY_PATH
 from vmware_aria_operations_integration_sdk.docker_wrapper import BuildError
 from vmware_aria_operations_integration_sdk.docker_wrapper import init
 from vmware_aria_operations_integration_sdk.docker_wrapper import login
@@ -23,6 +21,7 @@ from vmware_aria_operations_integration_sdk.docker_wrapper import push_image
 from vmware_aria_operations_integration_sdk.docker_wrapper import PushError
 from vmware_aria_operations_integration_sdk.ui import multiselect_prompt
 from vmware_aria_operations_integration_sdk.ui import print_formatted as print
+from vmware_aria_operations_integration_sdk.ui import prompt
 from vmware_aria_operations_integration_sdk.ui import selection_prompt
 
 VERSION_FILE = "../vmware_aria_operations_integration_sdk/container_versions.json"
@@ -60,10 +59,20 @@ def should_update_version(language: str, current_version: str) -> Any:
 
 def get_images_to_build(base_image: dict, secondary_images: List[Dict]) -> List[Dict]:
     # Create an array with the base image as the first option
-    choices = [(base_image, f"{base_image['language']}", True)]
+    # Note: The third element (False) means it's NOT pre-selected by default
+    # Users can toggle selections using SPACE bar and confirm with ENTER
+    choices = [(base_image, f"{base_image['language']} (base image)", False)]
 
     # Create choices for all secondary images and add it to the current choices
-    choices.extend([(i, f"{i['language']}", False) for i in secondary_images])
+    # Indicate that secondary images include the base image
+    choices.extend(
+        [
+            (i, f"{i['language']} (includes {base_image['language']} base)", False)
+            for i in secondary_images
+        ]
+    )
+
+    print("\nUse SPACE to select/deselect images, ENTER to confirm, ↑/↓ to navigate")
 
     images: List[Dict] = multiselect_prompt(  # type: ignore
         message="Select one or more images to build:", items=choices
@@ -72,6 +81,28 @@ def get_images_to_build(base_image: dict, secondary_images: List[Dict]) -> List[
     if len(images) == 0:
         print("No images were selected to build. Exiting.")
         exit(1)
+
+    # If any secondary image is selected, ensure the base image is also included
+    # because secondary images depend on the base image
+    has_secondary = any(img in secondary_images for img in images)
+    has_base = base_image in images
+
+    if has_secondary and not has_base:
+        print(
+            f"\nNote: {base_image['language']} base image will be built first (required for selected images)"
+        )
+        images.insert(0, base_image)
+
+    # Ensure base image is built first if it's in the list
+    if has_base and images[0] != base_image:
+        images.remove(base_image)
+        images.insert(0, base_image)
+
+    # Display what will be built
+    print(f"\nSelected {len(images)} image(s) to build:")
+    for img in images:
+        print(f"  - {img['language']}")
+    print()
 
     return images
 
@@ -82,7 +113,7 @@ def main() -> None:
     # as such we assume relative paths will work
     registry_url = get_config_value(
         "registry_url",
-        default=f"{CONTAINER_REGISTRY_HOST}/{CONTAINER_REGISTRY_PATH}",
+        default="",
         config_file=VERSION_FILE,
     )
 
@@ -104,16 +135,31 @@ def main() -> None:
     if any(i in images_to_build for i in secondary_images):
         set_config_value("secondary_images", secondary_images, VERSION_FILE)
 
+    registry_url_display = registry_url if registry_url else "a registry"
     push_to_registry: bool = selection_prompt(
-        message=f"Push images to {registry_url}?", items=[(True, "Yes"), (False, "No")]
+        message=f"Push images to {registry_url_display}?",
+        items=[(True, "Yes"), (False, "No")],
     )
 
     if push_to_registry:
+        if not registry_url:
+            registry_url = prompt("Enter registry URL to push images to: ")
         login(container_registry=registry_url)
 
-    for image in images_to_build:
+    print(f"\n{'='*60}")
+    print(f"Building {len(images_to_build)} image(s)...")
+    print(f"{'='*60}\n")
+
+    for idx, image in enumerate(images_to_build, 1):
         language = image["language"].lower()
         version = image["version"]
+
+        print(
+            f"\n[{idx}/{len(images_to_build)}] Building {image['language']} image (version {version})..."
+        )
+        print(f"    Path: {image['path']}")
+        print(f"    Language: {language}")
+        print(f"{'='*60}\n")
 
         tags = [
             f"{language}-{version}",
@@ -161,9 +207,8 @@ def build_image(client: docker.client, language: str, path: str) -> Image:
     build_path = os.path.join(os.path.realpath("."), path)
 
     # TODO use Low level API to show user build progress
-    print(f"building {language} image...")
     image, _ = docker_wrapper.build_image(
-        client, path=build_path, tag={CONTAINER_BASE_NAME}
+        client, path=build_path, tag=CONTAINER_BASE_NAME
     )
     # TODO try pulling/building base image
 

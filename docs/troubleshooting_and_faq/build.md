@@ -1,5 +1,33 @@
 # mp-build
 
+### Unable to access base-adapter images from remote registry ("failed to resolve reference...")
+
+If you are using an older version of the SDK, you might see errors regarding `projects.packages.broadcom.com`.
+The remote registry is no longer available. However, in newer SDK versions, the base adapter images are bundled directly into the SDK and are built automatically when you run `mp-build` or `mp-test`.
+
+#### Resolution
+
+**1. Upgrade your SDK:**
+Ensure you are using the latest version of the SDK:
+```bash
+pip install --upgrade vmware-aria-operations-integration-sdk
+```
+
+**2. Update your Dockerfile:**
+Remove the registry prefix from the `FROM` instruction in your adapter's `Dockerfile` so it just references the local image name.
+
+*Before:*
+```dockerfile
+FROM projects.packages.broadcom.com/vmware_aria_operations_integration_sdk/base-adapter:python-1.0.0
+```
+
+*After:*
+```dockerfile
+FROM base-adapter:python-1.2.0
+```
+
+Once upgraded and updated, `mp-build` and `mp-test` will automatically detect if the base image is missing on your machine and build it locally in the background using the bundled source files.
+
 ### mp-build returns 'Unable to build container'
 
 In most cases, this error indicates issues with building the container image. The most probable causes are:
