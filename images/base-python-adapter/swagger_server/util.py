@@ -3,7 +3,6 @@
 import datetime
 import typing
 
-import six
 from swagger_server import type_util
 
 
@@ -18,7 +17,7 @@ def _deserialize(data, klass):
     if data is None:
         return None
 
-    if klass in six.integer_types or klass in (float, str, bool, bytearray):
+    if klass in (int,) or klass in (float, str, bool, bytearray):
         return _deserialize_primitive(data, klass)
     elif klass == object:
         return _deserialize_object(data)
@@ -47,7 +46,7 @@ def _deserialize_primitive(data, klass):
     try:
         value = klass(data)
     except UnicodeEncodeError:
-        value = six.u(data)
+        value = str(data)
     except TypeError:
         value = data
     return value
@@ -108,7 +107,7 @@ def deserialize_model(data, klass):
     if not instance.swagger_types:
         return data
 
-    for attr, attr_type in six.iteritems(instance.swagger_types):
+    for attr, attr_type in instance.swagger_types.items():
         if (
             data is not None
             and instance.attribute_map[attr] in data
@@ -143,4 +142,4 @@ def _deserialize_dict(data, boxed_type):
     :return: deserialized dict.
     :rtype: dict
     """
-    return {k: _deserialize(v, boxed_type) for k, v in six.iteritems(data)}
+    return {k: _deserialize(v, boxed_type) for k, v in data.items()}

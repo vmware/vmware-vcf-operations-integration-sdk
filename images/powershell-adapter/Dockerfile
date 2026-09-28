@@ -1,4 +1,4 @@
-FROM base-adapter:python-1.0.0
+FROM base-adapter:python-1.2.0
 
 # Switch to root to install PowerShell
 USER root
@@ -6,7 +6,7 @@ USER root
 # Install dependencies, add Microsoft repository, and install PowerShell
 RUN apt-get -q update && \
     apt-get -yq install wget ca-certificates && \
-    wget -q https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb && \
+    wget -q https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
     rm packages-microsoft-prod.deb && \
     apt-get -q update && \

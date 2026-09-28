@@ -355,6 +355,12 @@ async def run(arguments: Any) -> None:
     except Exception as e:
         logger.warning(f"Unable to save logs to {log_file_path}: {e}")
 
+    # Wait for the container image to finish building before prompting the user
+    # for connection details so the terminal UI doesn't get messed up.
+    if adapter_container._image_task:
+        with Spinner("Building base image"):
+            await adapter_container._image_task
+
     connection = await get_connection(project, adapter_container, arguments)
 
     try:

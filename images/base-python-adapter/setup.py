@@ -13,7 +13,7 @@ VERSION = "1.0.0"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["connexion", "swagger-ui-bundle>=0.0.2"]
+REQUIRES = ["connexion[flask,uvicorn]"]
 
 setup(
     name=NAME,

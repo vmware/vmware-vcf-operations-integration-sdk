@@ -3,8 +3,8 @@
 #  SPDX-License-Identifier: Apache-2.0
 from __future__ import absolute_import
 
-from flask import json
-from six import BytesIO
+import json
+from io import BytesIO  # noqa: F401
 from swagger_server.models.adapter_config import AdapterConfig  # noqa: E501
 from swagger_server.models.collect_result import CollectResult  # noqa: E501
 from swagger_server.models.test_result import TestResult  # noqa: E501
