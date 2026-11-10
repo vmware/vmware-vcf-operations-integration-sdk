@@ -77,9 +77,3 @@ mkdocs-open-in-new-tab = "^1.0.2"
 mp-init = "vmware_aria_operations_integration_sdk.mp_init:main"
 mp-test = "vmware_aria_operations_integration_sdk.mp_test:main"
 mp-build = "vmware_aria_operations_integration_sdk.mp_build:main"
-
-[[tool.poetry.source]]
-name = "artifactory"
-url = "https://packages.vcfd.broadcom.net/artifactory/api/pypi/pypi-virtual/simple"
-priority = "primary"
-
