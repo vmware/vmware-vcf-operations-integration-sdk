@@ -13,24 +13,25 @@ authors = ["Kyle Rokos <kyle.rokos@broadcom.com>", "Mark Arbogast <mark.arbogast
 license = "APACHE-2.0"
 readme = "README.md"
 packages = [{include = "vmware_aria_operations_integration_sdk"}]
+# Every entry is an inline table (a bare string is equivalent to { path = "..." }).
+# Dependabot's TOML library cannot round-trip a list that mixes strings and tables.
+# The adapter_templates entries include all files there except hidden ones
+# (to prevent including system-specific files).
 include = [
-    "vmware_aria_operations_integration_sdk/adapter_template/describeSchema.xsd",
-    "vmware_aria_operations_integration_sdk/adapter_template/traversalwSpecSchema.xsd",
-    "vmware_aria_operations_integration_sdk/adapter_template/alertDefinitionSchema.xsd",
-
-    # Include all files in the adapter_templates directory excluding hiden files (to prevent including system specific files)
-    "vmware_aria_operations_integration_sdk/adapter_configurations/adapter_templates/**/*",
-    "!vmware_aria_operations_integration_sdk/adapter_configurations/adapter_templates/**/.*",
-
-    "vmware_aria_operations_integration_sdk/api/vmware-aria-operations-collector-fwk2.json",
-    "vmware_aria_operations_integration_sdk/api/integration-sdk-definition-endpoint.json",
-    "vmware_aria_operations_integration_sdk/container_versions.json",
-    { path = "images/**/*", format = ["sdist", "wheel"] }
+    { path = "vmware_aria_operations_integration_sdk/adapter_template/describeSchema.xsd" },
+    { path = "vmware_aria_operations_integration_sdk/adapter_template/traversalwSpecSchema.xsd" },
+    { path = "vmware_aria_operations_integration_sdk/adapter_template/alertDefinitionSchema.xsd" },
+    { path = "vmware_aria_operations_integration_sdk/adapter_configurations/adapter_templates/**/*" },
+    { path = "!vmware_aria_operations_integration_sdk/adapter_configurations/adapter_templates/**/.*" },
+    { path = "vmware_aria_operations_integration_sdk/api/vmware-aria-operations-collector-fwk2.json" },
+    { path = "vmware_aria_operations_integration_sdk/api/integration-sdk-definition-endpoint.json" },
+    { path = "vmware_aria_operations_integration_sdk/container_versions.json" },
+    { path = "images/**/*", format = ["sdist", "wheel"] },
 ]
 repository = "https://github.com/vmware/vrealize-operations-integration-sdk"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.13"
+python = ">=3.11,<3.13"
 GitPython = ">=3.1.59"
 aenum = "^3.1.11"
 openapi-schema-validator = "^0.4.0"

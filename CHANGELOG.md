@@ -1,5 +1,8 @@
 VMware Cloud Foundation Operations Integration SDK
 --------------------------------------
+## Unreleased
+* Python 3.10 is no longer supported. The SDK now requires Python 3.11 or 3.12. Python 3.10 reached end of life in October 2026, and security fixes for dependencies such as Pillow and filelock require Python 3.11 or later.
+
 ## 1.2.0 (02-12-2025)
 * Fix and updates to Adapter Libraries
 * `config.json` will let you specify a different push repository from the pull repository by using the `container_push_repository` property.
