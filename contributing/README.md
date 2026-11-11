@@ -3,7 +3,7 @@
 Contributing to the project does not necessarily require familiarity with every component. The [index page](index.md) explains the project structure and links to some high-level project documentation. If you require detailed information not covered here, please open a [discussion](https://github.com/vmware/vmware-aria-operations-integration-sdk/discussions/new?category=general)
 
 ## Environment
-This project uses Python 3.9 - 3.12. All other dependencies can be installed via [poetry](https://python-poetry.org/),
+This project uses Python 3.11 - 3.12. All other dependencies can be installed via [poetry](https://python-poetry.org/),
 by running:
 
 ```shell
