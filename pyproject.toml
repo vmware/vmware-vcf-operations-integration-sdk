@@ -63,7 +63,7 @@ pygments = ">=2.20.0"
 [tool.poetry.group.dev.dependencies]
 pytest = ">=9.0.3"
 mypy = "^0.991"
-black = "23.3.0"
+black = "26.10.1"
 pre-commit = "^2.20.0"
 mkdocs = "^1.4.3"
 mike = "^2.1.3"
