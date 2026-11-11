@@ -1,0 +1,27 @@
+# TEMPORARY: throwaway branch only. Do not merge.
+name: Relock
+on:
+  push:
+    branches: [test/dependabot-dry-run]
+permissions:
+  contents: read
+jobs:
+  relock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/black-26
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pipx install poetry==2.5.1
+      - run: poetry update --lock black
+      - run: poetry check --lock
+      - name: Format with black 26.10.1 (same as psf/black action defaults, src ".")
+        run: pipx run black==26.10.1 . 2>&1 | tail -5
+      - run: git diff > changes.patch; git diff --stat
+      - uses: actions/upload-artifact@v4
+        with:
+          name: black-changes
+          path: changes.patch
